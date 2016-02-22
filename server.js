@@ -27,6 +27,7 @@ mongoose.connect('mongodb://root:charles@ds013908.mongolab.com:13908/ecommerce',
 
 
 // run Middleware to use morgan function
+app.use(express.static(__dirname + '/public')); //for static files
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -72,15 +73,15 @@ app.post('/create-user', function(req, res, next){
 
 
 app.get('/', function(req, res){
-	res.render('home');
+	res.render('main/home');
 });
 
 
 app.get('/about', function(req, res){
-	res.render('about');
+	res.render('main/about');
 });
 
-// add validation to server to see if it's running 
+// add validation to server to see if it's running
 app.listen(3000, function(err){
 	if(err) throw err;
 	console.log("Server is Running");
