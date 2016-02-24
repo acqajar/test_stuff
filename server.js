@@ -9,11 +9,8 @@ var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var flash = require('express-flash');
 
-var userRoutes = require('./routes/user');
-var mainRoutes = require('./routes/main');
-
-
 var User = require('./models/user');
+
 
 
 
@@ -52,6 +49,13 @@ app.use(flash());
 // ejs Middleware
 app.engine('ejs', engine);
 app.set('view engine', 'ejs');
+
+
+
+
+var userRoutes = require('./routes/user');
+var mainRoutes = require('./routes/main');
+
 
 
 
