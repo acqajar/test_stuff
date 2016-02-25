@@ -11,7 +11,7 @@ router.get('/signup', function(req, res, next){
 
 
 
-// something is wrong here....
+// post signup
 router.post('/signup', function(req, res, next) {
   var user = new User();
   user.profile.name = req.body.name;

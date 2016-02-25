@@ -9,6 +9,9 @@ var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var flash = require('express-flash');
 
+
+var secret = require("./config/secret")
+
 var User = require('./models/user');
 
 
@@ -18,7 +21,7 @@ var app = express();
 // Can also type -- express().listen();
 
 
-mongoose.connect('mongodb://root:charles@ds013908.mongolab.com:13908/ecommerce', function(err){
+mongoose.connect(secret.database, function(err){
 	if (err){
 		console.log(err);
 	} else {
@@ -36,7 +39,7 @@ app.use(cookieParser());
 app.use(session({
 	resave: true,
 	saveUninitialized: true,
-	secret: "Arsames123456789"
+	secret: secret.secretKey,
 }));
 
 
@@ -106,7 +109,7 @@ app.use(userRoutes);
 // });
 
 // add validation to server to see if it's running
-app.listen(3000, function(err){
+app.listen(secret.port, function(err){
 	if(err) throw err;
-	console.log("Server is Running");
+	console.log("Server is Running on port " + secret.port);
 })
