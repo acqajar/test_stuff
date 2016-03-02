@@ -2,22 +2,27 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title> Nurishly </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/css/custom.css"/>
+    <title>Jumbotron Template for Bootstrap</title>
+    <!-- <link rel="stylesheet" href="/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="./css/custom.css"> -->
+    <style>
+      body {
+        padding-top:100px;
+      }
+    </style>
   </head>
 
-  <body>
-<% include ./partials/navbar %>
-    <div class="container">
 
+  <body>
+
+    <% include ./partials/navbar %>
+
+
+      <!-- Example row of columns -->
       <%- body -%>
 
-
-    </div> <!-- /container -->
-
-<% include ./partials/footer %>
+      <!-- /container -->
+      <% include ./partials/footer %>
   </body>
 </html>
