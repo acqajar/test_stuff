@@ -41,10 +41,11 @@ app.use(session({
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-// app.use(function(req, res, next) {
-//   res.locals.user = req.user;
-//   next();
-// });
+//every route will have the user object
+app.use(function(req, res, next) {
+  res.locals.user = req.user;
+  next();//callback function
+});
 
 app.engine('ejs', engine);
 app.set('view engine', 'ejs');

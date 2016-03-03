@@ -4,6 +4,7 @@
   <head>
     <title> Nurishly - Nutrition by Nutritionists </title>
     <!-- <link rel="stylesheet" href="/css/bootstrap.min.css"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
@@ -13,21 +14,26 @@
 <!-- Latest compiled JavaScript -->
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <style>
-      /*body {
-        padding-top:100px;
-      }*/
+      body {
+        /*padding-top:100px;*/
+        /*position:relative;*/
+      }
+
+      .navbar-default .navbar-brand {
+        color:black;
+      }
     </style>
   </head>
 
-
+<% include ./partials/navbar %>
   <body>
 
-    <% include ./partials/navbar %>
 
 
+    <div class="container">
       <!-- Example row of columns -->
       <%- body -%>
-
+    </div>
       <!-- /container -->
       <% include ./partials/footer %>
   </body>
