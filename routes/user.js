@@ -67,10 +67,13 @@ router.get('/logout', function(req, res, next) {
 });
 
 
+
+
 // edit profile for user
 router.get('/edit-profile', function(req, res, next) {
   res.render('accounts/edit-profile', { message: req.flash('success')});
 });
+
 
 router.post('/edit-profile', function(req, res, next) {
   User.findOne({ _id: req.user._id }, function(err, user) {
