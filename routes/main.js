@@ -3,40 +3,74 @@ var User = require('../models/user');
 var Product = require('../models/product');
 
 
-router.get('/', function(req, res){
-	res.render('main/home');
+Product.createMapping(function(err, mapping) {
+  //map between product database and elasticsearch
+  if (err) {
+    console.log("error creating mapping");
+    console.log(err);
+  } else {
+    console.log("Mapping created");
+    console.log(mapping);
+  }
 });
 
 
-router.get('/about', function(req, res){
-	res.render('main/about');
+var stream = Product.synchronize(); //sync product data in elasticsearch
+var count = 0;
+
+// keep count # of documents
+stream.on('data', function() {
+  count++;
 });
 
-module.exports = router;
-
-
-router.get('/users', function(req,res){
-	User.find({}, function(err,users){
-		res.json(users);
-	 	console.log(users);
-	});
+stream.on('close', function() {
+  console.log("Indexed " + count + " documents");
 });
 
-// double dot specifies certain route
-// router.get('/products/:id', function(req,res,next){
-// 	Product //querying a product
-// 		.find({ category: req.params.id}) //how to access parameters in the route :id
-// 		.populate('category') //only if category is ObjectId which is true in Category Schema
-// 		.exec(function(err,products){ //execute anonymous funciton on all methods i.e. .find and .exec
-// 			if(err) return next(err);
-// 			res.render('main/category', {
-// 				products: products
-// 			});
-// 		});
+stream.on('error', function(err) {
+  console.log(err);
+});
+
+
+// router.post('/search', function(req, res, next) {
+//   res.redirect('/search?q=' + req.body.q);
+// });
+//
+// router.get('/search', function(req, res, next) {
+//   if (req.query.q) {
+//     Product.search({
+//       query_string: { query: req.query.q}
+//     }, function(err, results) {
+//       results:
+//       if (err) return next(err);
+//       var data = results.hits.hits.map(function(hit) {
+//         return hit;
+//       });
+//       res.render('main/search-result', {
+//         query: req.query.q,
+//         data: data
+//       });
+//     });
+//   }
 // });
 
+// router.get('/', function(req, res, next) {
+//
+//   if (req.user) {
+//     paginate(req, res, next);
+//   } else {
+//     res.render('main/home');
+//   }
+//
+// });
 
+// router.get('/page/:page', function(req, res, next) {
+//   paginate(req,res,next);
+// });
 
+router.get('/about', function(req, res) {
+  res.render('main/about');
+});
 
 router.get('/products/:id', function(req, res, next) {
   Product
@@ -59,3 +93,5 @@ router.get('/product/:id', function(req, res, next) {
     });
   });
 });
+
+module.exports = router;
