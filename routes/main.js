@@ -2,9 +2,11 @@ var router = require('express').Router();
 var User = require('../models/user');
 var Product = require('../models/product');
 
+router.get('/', function(req, res) {
+  res.render('main/home');
+});
 
 Product.createMapping(function(err, mapping) {
-  //map between product database and elasticsearch
   if (err) {
     console.log("error creating mapping");
     console.log(err);
@@ -14,11 +16,9 @@ Product.createMapping(function(err, mapping) {
   }
 });
 
-
-var stream = Product.synchronize(); //sync product data in elasticsearch
+var stream = Product.synchronize();
 var count = 0;
 
-// keep count # of documents
 stream.on('data', function() {
   count++;
 });
@@ -32,41 +32,28 @@ stream.on('error', function(err) {
 });
 
 
-// router.post('/search', function(req, res, next) {
-//   res.redirect('/search?q=' + req.body.q);
-// });
-//
-// router.get('/search', function(req, res, next) {
-//   if (req.query.q) {
-//     Product.search({
-//       query_string: { query: req.query.q}
-//     }, function(err, results) {
-//       results:
-//       if (err) return next(err);
-//       var data = results.hits.hits.map(function(hit) {
-//         return hit;
-//       });
-//       res.render('main/search-result', {
-//         query: req.query.q,
-//         data: data
-//       });
-//     });
-//   }
-// });
+router.post('/search', function(req, res, next) {
+  res.redirect('/search?q=' + req.body.q);
+});
 
-// router.get('/', function(req, res, next) {
-//
-//   if (req.user) {
-//     paginate(req, res, next);
-//   } else {
-//     res.render('main/home');
-//   }
-//
-// });
+router.get('/search', function(req, res, next) {
+  if (req.query.q) {
+    Product.search({
+      query_string: { query: req.query.q}
+    }, function(err, results) {
+      results:
+      if (err) return next(err);
+      var data = results.hits.hits.map(function(hit) {
+        return hit;
+      });
+      res.render('main/search-result', {
+        query: req.query.q,
+        data: data
+      });
+    });
+  }
+});
 
-// router.get('/page/:page', function(req, res, next) {
-//   paginate(req,res,next);
-// });
 
 router.get('/about', function(req, res) {
   res.render('main/about');
