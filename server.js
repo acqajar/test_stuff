@@ -15,8 +15,8 @@ var passport = require('passport');
 var secret = require('./config/secret');
 var User = require('./models/user');
 var Category = require('./models/category');
-var app = express();
 
+var app = express();
 
 mongoose.connect(secret.database, function(err) {
   if (err) {
@@ -27,7 +27,7 @@ mongoose.connect(secret.database, function(err) {
 });
 
 // Middleware
-app.use(express.static(__dirname + '../public'));
+app.use(express.static(__dirname + '/public'));
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -41,18 +41,16 @@ app.use(session({
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-//every route will have the user object
 app.use(function(req, res, next) {
   res.locals.user = req.user;
-  next();//callback function
+  next();
 });
 
 app.use(function(req, res, next) {
-  // find{} empty to search for all documents in database
-  Category.find({}, function(err,categories){
+  Category.find({}, function(err, categories) {
     if (err) return next(err);
-    res.locals.categories = categories; //store list of categories in local variable named categories
-    next();//callback function
+    res.locals.categories = categories;
+    next();
   });
 });
 
@@ -61,7 +59,7 @@ app.set('view engine', 'ejs');
 
 var mainRoutes = require('./routes/main');
 var userRoutes = require('./routes/user');
-var adminRoutes=require('./routes/admin');
+var adminRoutes = require('./routes/admin');
 var apiRoutes = require('./api/api');
 
 app.use(mainRoutes);
