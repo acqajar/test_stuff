@@ -9,7 +9,7 @@ $(function (){
     $ajax({
       method: 'POST',
       url: '/api/search',
-      dataL {
+      data: {
         search_term
       },
       dataType: 'json',
@@ -30,4 +30,4 @@ $(function (){
 
 
 
-})
+});
