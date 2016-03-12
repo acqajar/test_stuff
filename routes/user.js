@@ -6,6 +6,8 @@ var passport = require('passport');
 var passportConf = require('../config/passport');
 
 
+
+
 router.get('/login', function(req, res) {
   if (req.user) return res.redirect('/');
   res.render('accounts/login', { message: req.flash('loginMessage')});
@@ -44,7 +46,7 @@ router.post('/signup', function(req, res, next) {
       user.profile.name = req.body.name;
       user.email = req.body.email;
       user.password = req.body.password;
-      user.profile.picture = user.gravatar());
+      user.profile.picture = user.gravatar();
 
       User.findOne({ email: req.body.email }, function(err, existingUser) {
 
